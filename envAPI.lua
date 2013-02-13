@@ -1,9 +1,9 @@
 envAPI = {}
 envAPI._G = envAPI
 operatingComp = nil
-dofile("envAPI_fs")
-dofile("envAPI_os")
-dofile("envAPI_term")
+dofile("envAPI_fs.lua")
+dofile("envAPI_os.lua")
+dofile("envAPI_term.lua")
 
 local simpleWrapFunctions = {"tostring","type","tonumber"}
 for k,v in pairs(simpleWrapFunctions) do
