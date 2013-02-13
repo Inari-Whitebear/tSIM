@@ -6,6 +6,7 @@ function computerTerminal.new()
     tab.id = -1
     tab.label = ""
     tab.status = "off"
+    tab.termIsColor = false
     tab.peripheral = {}
     tab.peripheral.type = "turtle"
     tab.peripheral.parent = tab
@@ -32,10 +33,8 @@ end
 function computerTerminal.osRun(tEnv,tProg,...)
     local fileFunc,err = loadfile(tProg)
     if fileFunc then
-        print("FFUNC")
         setmetatable(tEnv,{__index=envAPI._G})
         setfenv(fileFunc,tEnv)
-        print("CCALL")
         local ok,err = pcall(function() fileFunc(unpack(arg)) end)
         if not ok then
             if err and err~="" then
@@ -46,7 +45,6 @@ function computerTerminal.osRun(tEnv,tProg,...)
         return true
 
     end
-    print("FALSE")
     if err and err~="" then
         error(err)
     end
@@ -64,7 +62,7 @@ function computerTerminal.isolatedCoroutine(comp)
 
     print("PC")
     print("_GTYPE::"..type(_G))
-    os.pullEvent("startup")
+    os.pullEvent("co_startup")
     os.run( {}, "testRun" )
 
     
@@ -85,12 +83,7 @@ function computerTerminalInj:startup()
     computerTerminal.prepareEnv(self.env)
     turtleManager.register(self)
     fsRouting.prepareFolder(self)
-    self.term = {}
-    self.term.x = 1
-    self.term.y = 1
-    self.term.blink = true
-    self.term.w,self.term.h = termManager.getDefaultTermSize(self.peripheral.type)
-    self.term.data = termManager.getBlankTermData(self)
+    self.term = vTerm.makeTerm("term_"..self.id,turtle.defaultTermSize[1],turtle.defaultTermSize[2],self.termIsColor)
     eventManager.register(self)
     self:startCoroutine()
     
@@ -114,7 +107,3 @@ function computerTerminalInj:execCode(LuaCode)
         return false,e
     end
 end
-
---[[
-jj
-]]

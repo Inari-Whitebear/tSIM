@@ -1,4 +1,5 @@
 turtle = {}
+turtle.defaultTermSize = {10,10}
 local turtleInj = {}
 
 function turtle.init()
