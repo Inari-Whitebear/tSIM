@@ -21,7 +21,7 @@ function eventManager.processEvent()
                     local yield
                     timeManager.startMeasure()
                     if v[2] == "co_startup" then
-                        yield = coroutine.resume()
+                        yield = coroutine.resume(v[1])
                     else
                         yield = coroutine.resume(v[1],unpack(evData))
                     end
