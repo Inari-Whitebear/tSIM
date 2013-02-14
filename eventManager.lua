@@ -11,10 +11,15 @@ function processEvent()
     if evData ~= nil then
         for k,v in pairs(eventManager.registrations)
             if coroutine.status(v[1]) ~= "dead" then
-                if v[2] == evData[1] or v[2] == "" then
+                if v[2] == evData[1] or v[2] == "" or v[2] == "co_startup" then
                     envAPI.operatingComp = k
+                    local yield
                     timeManager.startMeasure()
-                    local yield = coroutine.resume(v[1])
+                    if v[2] == "co_startup" then
+                        yield = coroutine.resume()
+                    else
+                        yield = coroutine.resume(v[1])
+                    end
                     timeManager.stopMeasure()
                     if yield and type(yield) ~= "string" then yield = nil end
                     if yield == nil then yield = "" end
