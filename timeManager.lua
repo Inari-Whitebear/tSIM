@@ -1,9 +1,13 @@
 timeManager = {}
 timeManager.cTime = 0
-
+timeManager.simulationStepSleep = 1
 
 function timeManager.startMeasure()
     timeManager.measureStart = os.clock()
+end
+
+function timeManager.delayTime(timeDelay)
+    timeManager.cTime = timeManager.cTime + timeDelay
 end
 
 function timeManager.getCurrentTime()
