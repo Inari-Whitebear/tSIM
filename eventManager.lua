@@ -23,7 +23,7 @@ function eventManager.processEvent()
                     if v[2] == "co_startup" then
                         yield = coroutine.resume()
                     else
-                        yield = coroutine.resume(v[1])
+                        yield = coroutine.resume(v[1],unpack(evData))
                     end
                     timeManager.stopMeasure()
                     if yield and type(yield) ~= "string" then yield = nil end
